@@ -6,7 +6,7 @@
 
 <p align="center">
   <em>One skill, six agents.</em> Turn a one-line brief like
-  <code>create hubspot theme for a pharmacy company</code>
+  <code>Create a HubSpot theme for a [your industry] business.</code>
   into a full, production-ready HubSpot CMS theme — fields.json, modules, centralized CSS/JS, the works.
 </p>
 
@@ -21,14 +21,39 @@
 
 ---
 
-A single AI skill that turns a one-line brief into a full HubSpot CMS theme — `theme.json`, a complete `fields.json` global settings panel, centralized `main.css` / `main.js`, and a catalog of ~50 reusable modules. Cross-tool: works in **Claude Code**, **Google Antigravity**, and **OpenAI Codex**.
+A single AI skill that turns a one-line brief into a full HubSpot CMS theme — `theme.json`, a complete `fields.json` global settings panel, centralized `main.css` / `main.js`, and a catalog of ~50 reusable modules. Cross-tool: works in **Claude Code**, **OpenAI Codex**, **Google Antigravity**, **Cursor**, **GitHub Copilot**, and **OpenCode**.
+
+## Quick install
+
+| Tool | One-liner |
+|------|-----------|
+| **Claude Code** | `git clone https://github.com/Roshinjose167/Awesome-HubSpot-Theme-Skill.git ~/.claude/skills/hubspot-theme-builder` |
+| **Cursor** *(in your theme repo)* | `mkdir -p .cursor/rules && curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/cursor-rules.mdc -o .cursor/rules/hubspot-theme-builder.mdc` |
+| **GitHub Copilot** *(in your theme repo)* | `mkdir -p .github && curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/copilot-instructions.md -o .github/copilot-instructions.md` |
+| **OpenCode / Cline / Aider** *(in your theme repo)* | `curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/opencode-AGENTS.md -o AGENTS.md` |
+| **Codex / Antigravity** | Open [`prompts/codex-system-prompt.md`](prompts/codex-system-prompt.md) or [`prompts/antigravity-system-prompt.md`](prompts/antigravity-system-prompt.md) on GitHub, copy the body, paste as the agent's system prompt. |
+
+Then in any of those tools type your brief, e.g.:
+
+```
+Create a HubSpot theme for a [your industry] business.
+```
+
+Concrete examples that work well:
+
+- `Create a HubSpot theme for a modern healthcare clinic.`
+- `Build a HubSpot theme for a B2B SaaS startup with a developer audience.`
+- `Generate a HubSpot CMS theme for a boutique law firm — calm, premium, navy + gold palette.`
+- `Make me a HubSpot theme for a logistics company. Use defaults.`
+
+Per-tool detail and explanation of how each agent picks up the file is in [How to use — per tool](#how-to-use--per-tool) below.
 
 ## What this skill does
 
 You type a brief like:
 
 ```
-create hubspot theme for a pharmacy company
+Create a HubSpot theme for a [your industry] business.
 ```
 
 and the agent produces a production-ready theme with:
@@ -66,22 +91,32 @@ All paste-in files inline the full spec, so the receiving agent needs no other f
 Symlinked once at install time (see "Install" below). After install, run Claude Code in any working directory and type:
 
 ```
-create hubspot theme for a pharmacy company
+Create a HubSpot theme for a [your industry] business.
 ```
 
-The trigger phrase in `SKILL.md`'s frontmatter matches and the agent loads the full instruction set automatically. To invoke explicitly: `/hubspot-theme-builder create theme for a pharmacy company`.
+The trigger phrase in `SKILL.md`'s frontmatter matches and the agent loads the full instruction set automatically. To invoke explicitly: `/hubspot-theme-builder Create a HubSpot theme for a [your industry] business.`
 
 ### OpenAI Codex
 
 1. Open Codex (codex.com or the Codex CLI).
-2. Paste the entire contents of [`prompts/codex-system-prompt.md`](prompts/codex-system-prompt.md) as the system prompt.
-3. Send your brief: `create hubspot theme for a pharmacy company`.
+2. Copy the prompt to your clipboard:
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/codex-system-prompt.md | pbcopy
+   ```
+   *(or just open [the file on GitHub](https://github.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/blob/main/prompts/codex-system-prompt.md) and copy it manually)*
+3. Paste it as the **system prompt** in Codex.
+4. Send your brief, e.g. `Create a HubSpot theme for a [your industry] business.`
 
 ### Google Antigravity
 
 1. Open Antigravity, open the agent's system prompt configuration.
-2. Paste [`prompts/antigravity-system-prompt.md`](prompts/antigravity-system-prompt.md).
-3. Start a new conversation with your brief.
+2. Copy the prompt:
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/antigravity-system-prompt.md | pbcopy
+   ```
+   *(or open [the file on GitHub](https://github.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/blob/main/prompts/antigravity-system-prompt.md) and copy it.)*
+3. Paste it as the system prompt.
+4. Start a new conversation with your brief.
 
 ### Cursor
 
@@ -89,8 +124,8 @@ In your HubSpot theme project root:
 
 ```bash
 mkdir -p .cursor/rules
-cp /Users/apple/Documents/OneIMS-Marketplace/aihubspotthemeskill/prompts/cursor-rules.mdc \
-   .cursor/rules/hubspot-theme-builder.mdc
+curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/cursor-rules.mdc \
+  -o .cursor/rules/hubspot-theme-builder.mdc
 ```
 
 Cursor picks it up automatically. The `globs` in the file's frontmatter activate the rule when you're editing `theme.json`, `fields.json`, anything inside `*.module/`, or `*.hubl` files. To invoke unconditionally, type `@hubspot-theme-builder` in Cursor chat. Send your brief.
@@ -101,8 +136,8 @@ In your HubSpot theme repo root:
 
 ```bash
 mkdir -p .github
-cp /Users/apple/Documents/OneIMS-Marketplace/aihubspotthemeskill/prompts/copilot-instructions.md \
-   .github/copilot-instructions.md
+curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/copilot-instructions.md \
+  -o .github/copilot-instructions.md
 git add .github/copilot-instructions.md && git commit -m "Add Copilot instructions for HubSpot theme work"
 ```
 
@@ -113,8 +148,8 @@ Copilot Chat reads `.github/copilot-instructions.md` automatically for every cha
 In your HubSpot theme project root:
 
 ```bash
-cp /Users/apple/Documents/OneIMS-Marketplace/aihubspotthemeskill/prompts/opencode-AGENTS.md \
-   ./AGENTS.md
+curl -fsSL https://raw.githubusercontent.com/Roshinjose167/Awesome-HubSpot-Theme-Skill/main/prompts/opencode-AGENTS.md \
+  -o AGENTS.md
 ```
 
 Run OpenCode (or your agent of choice). It reads `AGENTS.md` automatically. Send your brief.
@@ -122,10 +157,13 @@ Run OpenCode (or your agent of choice). It reads `AGENTS.md` automatically. Send
 ## Install (one-time, Claude Code only)
 
 ```bash
-ln -s "/Users/apple/Documents/OneIMS-Marketplace/aihubspotthemeskill" ~/.claude/skills/hubspot-theme-builder
+git clone https://github.com/Roshinjose167/Awesome-HubSpot-Theme-Skill.git \
+  ~/.claude/skills/hubspot-theme-builder
 ```
 
 Restart Claude Code. Verify with `/skills` — `hubspot-theme-builder` should appear.
+
+To pull future updates: `cd ~/.claude/skills/hubspot-theme-builder && git pull`.
 
 The Codex / Antigravity / Cursor / Copilot / OpenCode files don't need a global install — they live alongside the project that uses them, copied in as shown above.
 
@@ -174,14 +212,16 @@ aihubspotthemeskill/
 
 Edit `SKILL.md` or any `reference/*.md` and the next conversation picks up the change — no restart needed for Claude Code skill content (only for skill registration).
 
-When you change the spec in `SKILL.md` / reference docs, also update the five inlined copies in `prompts/` — they're snapshots, not symlinks. Each one shares the same body content; only the header wrapper differs (paste-target, file-path comment, etc.). Quick way to keep them in sync:
+When you change the spec in `SKILL.md` / reference docs, also update the five inlined copies in `prompts/` — they're snapshots, not symlinks. Each one shares the same body content; only the header wrapper differs (paste-target, file-path comment, etc.).
 
 ```bash
-cd /Users/apple/Documents/OneIMS-Marketplace/aihubspotthemeskill/prompts
+cd <repo>/prompts
 
 # 1. Edit the canonical body in antigravity-system-prompt.md.
 # 2. For each other file, replace the body (everything after the wrapper header)
 #    with the new body. The wrappers stay tool-specific.
+
+# Then commit and push so all consumers get the update.
 ```
 
 ## Versioning

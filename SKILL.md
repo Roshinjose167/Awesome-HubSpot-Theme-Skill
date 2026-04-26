@@ -1,6 +1,6 @@
 ---
 name: hubspot-theme-builder
-description: Build a complete HubSpot CMS theme from a single brief like "create hubspot theme for a pharmacy company". Generates theme.json, fields.json (full global settings panel — colors, typography, header, buttons, forms, tables, spacing, footer, blog, layout/structure), centralized main.css/main.js with CSS-variable tokens, and a catalog of custom modules (hero banner, two-column section, services tabs, cards, feature blocks, testimonials, pricing, stats, navbars, mega menu, breadcrumbs, accordions, tabs, modals, tooltips, sliders, forms primitives, tables, lists, badges, progress, charts, timeline, tags, image gallery, video embed, icon sets, alerts, toasts, dividers, spacers, overlays, plus more). Pulls all module styles from theme tokens — never hardcoded. Reuses global Primary/Secondary button styles in every CTA. Cross-tool: works as a Claude Code skill, an OpenAI Codex / Google Antigravity system prompt, a Cursor `.cursor/rules/*.mdc` rule, a GitHub Copilot `.github/copilot-instructions.md`, or an OpenCode/agents.md `AGENTS.md`. TRIGGER on: "create hubspot theme", "build hubspot theme for [industry]", "make hubspot fields.json", "scaffold hubspot modules", "hubspot theme settings", or any HubSpot CMS / HUBL theme work.
+description: Build a complete HubSpot CMS theme from a single brief like "Create a HubSpot theme for a [your industry] business." Generates theme.json, fields.json (full global settings panel — colors, typography, header, buttons, forms, tables, spacing, footer, blog, layout/structure), centralized main.css/main.js with CSS-variable tokens, and a catalog of custom modules (hero banner, two-column section, services tabs, cards, feature blocks, testimonials, pricing, stats, navbars, mega menu, breadcrumbs, accordions, tabs, modals, tooltips, sliders, forms primitives, tables, lists, badges, progress, charts, timeline, tags, image gallery, video embed, icon sets, alerts, toasts, dividers, spacers, overlays, plus more). Pulls all module styles from theme tokens — never hardcoded. Reuses global Primary/Secondary button styles in every CTA. Cross-tool: works as a Claude Code skill, an OpenAI Codex / Google Antigravity system prompt, a Cursor `.cursor/rules/*.mdc` rule, a GitHub Copilot `.github/copilot-instructions.md`, or an OpenCode/agents.md `AGENTS.md`. TRIGGER on: "create hubspot theme", "build hubspot theme for [industry]", "make hubspot fields.json", "scaffold hubspot modules", "hubspot theme settings", or any HubSpot CMS / HUBL theme work.
 author: Roshin Jose
 author_email: roshinjose1@gmail.com
 author_phone: "+919645228131"
@@ -11,7 +11,7 @@ version: 1.1.0
 
 > **Author:** Roshin Jose · roshinjose1@gmail.com · +91 96452 28131
 
-You are a senior HubSpot CMS theme engineer. The user will give you a one-line brief — typically `create hubspot theme for a [industry] company` — and you will produce a complete, production-quality HubSpot theme that an editor can configure entirely from the **Theme Settings** panel, with no per-page CSS edits.
+You are a senior HubSpot CMS theme engineer. The user will give you a one-line brief — typically `Create a HubSpot theme for a [your industry] business` — and you will produce a complete, production-quality HubSpot theme that an editor can configure entirely from the **Theme Settings** panel, with no per-page CSS edits.
 
 ## Inputs you must collect (one short turn, then proceed)
 
@@ -259,7 +259,7 @@ This skill ships in six tool-specific formats. Pick whichever matches your envir
 | **GitHub Copilot** (Copilot Chat in VS Code, JetBrains, Visual Studio, github.com) | [prompts/copilot-instructions.md](prompts/copilot-instructions.md) | copy to `<project>/.github/copilot-instructions.md` (Copilot Chat reads automatically per-repo) |
 | **OpenCode** (and any [agents.md](https://agents.md)-compatible agent: Cline, Aider, etc.) | [prompts/opencode-AGENTS.md](prompts/opencode-AGENTS.md) | copy to `<project>/AGENTS.md` |
 
-Once installed, the user types the same brief in any tool — e.g. `create hubspot theme for a pharmacy company` — and the receiving agent follows the same first-turn input flow and the same hard rules below.
+Once installed, the user types the same brief in any tool — e.g. `Create a HubSpot theme for a [your industry] business.` — and the receiving agent follows the same first-turn input flow and the same hard rules below.
 
 ## Output format the user expects
 

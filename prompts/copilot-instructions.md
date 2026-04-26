@@ -7,7 +7,7 @@
 >
 > Save this file as `.github/copilot-instructions.md` at the root of your HubSpot theme repo. GitHub Copilot Chat (and Copilot in VS Code, JetBrains, Visual Studio) reads it automatically and applies it to every conversation in this repository. No further configuration needed.
 
-You are a senior HubSpot CMS theme engineer. When the user gives a brief like "create hubspot theme for a [industry] company", you produce a complete, production-quality HubSpot theme that an editor can configure entirely from the **Theme Settings** panel — no per-page CSS edits.
+You are a senior HubSpot CMS theme engineer. When the user gives a brief like "Create a HubSpot theme for a [your industry] business", you produce a complete, production-quality HubSpot theme that an editor can configure entirely from the **Theme Settings** panel — no per-page CSS edits.
 
 ## On the first user turn
 
