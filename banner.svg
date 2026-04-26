@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500" role="img" aria-label="Awesome HubSpot Theme Skill — works in Claude Code, Codex, Antigravity, Cursor, GitHub Copilot, OpenCode">
+  <title>Awesome HubSpot Theme Skill</title>
+  <desc>Dot-matrix LED-display banner. Six tool icons on the right (Claude Code, Codex, Antigravity, Cursor, GitHub Copilot, OpenCode). Author Roshin Jose.</desc>
+
+  <defs>
+    <!-- Dot grid: small white circles on a transparent grid. Used as a mask to render text as "lit pixels". -->
+    <pattern id="dots" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse">
+      <circle cx="4.5" cy="4.5" r="2.4" fill="#ffffff"/>
+    </pattern>
+
+    <!-- Inverse: faint dim dots over the whole panel for the unlit-pixel base layer -->
+    <pattern id="dotsDim" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse">
+      <circle cx="4.5" cy="4.5" r="1.4" fill="#1c2722"/>
+    </pattern>
+
+    <!-- Mask for the headline: dots reveal where lit. Leaves 60px of left padding so the leading letter is never clipped. -->
+    <mask id="dotMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1090" height="500">
+      <rect x="0" y="0" width="1090" height="500" fill="url(#dots)"/>
+    </mask>
+
+    <!-- Subtle horizontal scanlines for the CRT feel -->
+    <pattern id="scan" x="0" y="0" width="2" height="3" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="1" fill="#000" opacity="0.35"/>
+    </pattern>
+
+    <!-- Vignette gradient -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#0d0f0e" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+    </radialGradient>
+
+    <!-- Soft glow filter for the mint type -->
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="500" fill="#0a0d0c"/>
+
+  <!-- Faint grid of unlit pixels across the whole banner -->
+  <rect width="1600" height="500" fill="url(#dotsDim)"/>
+
+  <!-- Headlines: render solid filled text under a dot mask so only the dots that fall on letter shapes appear lit. -->
+  <g mask="url(#dotMask)" filter="url(#glow)">
+    <!-- Line 1: "AWESOME" in dim white -->
+    <text x="100" y="180" font-family="ui-monospace, 'JetBrains Mono', 'Menlo', 'Consolas', monospace"
+          font-size="108" font-weight="800" fill="#e8efe8" letter-spacing="3">AWESOME</text>
+    <!-- Line 2: "HUBSPOT THEME" in mint accent -->
+    <text x="100" y="305" font-family="ui-monospace, 'JetBrains Mono', 'Menlo', 'Consolas', monospace"
+          font-size="108" font-weight="800" fill="#3FE9C0" letter-spacing="3">HUBSPOT THEME</text>
+  </g>
+
+  <!-- Subtitle (solid, not dot-masked, so small text stays legible) -->
+  <text x="100" y="385" font-family="ui-monospace, 'JetBrains Mono', 'Menlo', 'Consolas', monospace"
+        font-size="32" font-weight="700" fill="#FF7A59" letter-spacing="4">SKILL  ·  ONE FOR EVERY AGENT</text>
+
+  <!-- Scanlines overlay -->
+  <rect width="1600" height="500" fill="url(#scan)" opacity="0.35"/>
+
+  <!-- Vignette -->
+  <rect width="1600" height="500" fill="url(#vignette)"/>
+
+  <!-- Right panel: icon grid divider -->
+  <line x1="1100" y1="40" x2="1100" y2="460" stroke="#1c2722" stroke-width="1"/>
+
+  <!-- Icon grid: 2 columns x 3 rows. Cell 235 x 130. Top-left at (1110, 50). -->
+  <g font-family="ui-monospace, 'JetBrains Mono', 'Menlo', 'Consolas', monospace" font-size="14" fill="#9aa4a0" text-anchor="middle">
+
+    <!-- Cell 1,1: Claude Code -->
+    <g transform="translate(1227, 110)">
+      <!-- 8-point starburst -->
+      <g stroke="#e8efe8" stroke-width="3" stroke-linecap="round" fill="none">
+        <line x1="0" y1="-30" x2="0" y2="30"/>
+        <line x1="-30" y1="0" x2="30" y2="0"/>
+        <line x1="-21" y1="-21" x2="21" y2="21"/>
+        <line x1="-21" y1="21" x2="21" y2="-21"/>
+      </g>
+      <circle cx="0" cy="0" r="4" fill="#e8efe8"/>
+      <text y="58" fill="#cfd6d2">Claude Code</text>
+    </g>
+
+    <!-- Cell 1,2: Codex -->
+    <g transform="translate(1462, 110)">
+      <!-- Rounded swirl: two opposing arcs and a center node -->
+      <g stroke="#e8efe8" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M -28 -2 a 22 22 0 0 1 44 0"/>
+        <path d="M 28 2 a 22 22 0 0 1 -44 0"/>
+        <path d="M -10 -22 a 14 14 0 0 1 28 18"/>
+        <path d="M 10 22 a 14 14 0 0 1 -28 -18"/>
+      </g>
+      <text y="58" fill="#cfd6d2">Codex</text>
+    </g>
+
+    <!-- Cell 2,1: Antigravity (stylized A with upward arrow) -->
+    <g transform="translate(1227, 250)">
+      <g stroke="#e8efe8" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M -24 26 L 0 -28 L 24 26"/>
+        <path d="M -14 8 L 14 8"/>
+        <!-- Upward arrowhead atop the A -->
+        <path d="M -7 -22 L 0 -32 L 7 -22"/>
+      </g>
+      <text y="58" fill="#cfd6d2">Antigravity</text>
+    </g>
+
+    <!-- Cell 2,2: Cursor (classic pointer) -->
+    <g transform="translate(1462, 250)">
+      <g fill="#e8efe8" stroke="#0a0d0c" stroke-width="1.5" stroke-linejoin="round">
+        <path d="M -16 -22 L 14 8 L 0 8 L 8 24 L 0 28 L -8 12 L -16 18 Z"/>
+      </g>
+      <text y="58" fill="#cfd6d2">Cursor</text>
+    </g>
+
+    <!-- Cell 3,1: GitHub Copilot (simple goggles / co-pilot badge) -->
+    <g transform="translate(1227, 390)">
+      <g stroke="#e8efe8" stroke-width="3" fill="none" stroke-linecap="round">
+        <!-- Two lenses connected by a bar -->
+        <circle cx="-14" cy="2" r="11"/>
+        <circle cx="14" cy="2" r="11"/>
+        <line x1="-3" y1="2" x2="3" y2="2"/>
+        <!-- Strap arms -->
+        <line x1="-25" y1="-2" x2="-32" y2="-6"/>
+        <line x1="25" y1="-2" x2="32" y2="-6"/>
+        <!-- Top accent -->
+        <line x1="-14" y1="-14" x2="-14" y2="-22"/>
+        <line x1="14" y1="-14" x2="14" y2="-22"/>
+      </g>
+      <text y="58" fill="#cfd6d2">GitHub Copilot</text>
+    </g>
+
+    <!-- Cell 3,2: OpenCode (isometric cube) -->
+    <g transform="translate(1462, 390)">
+      <g stroke="#e8efe8" stroke-width="3" fill="none" stroke-linejoin="round">
+        <!-- Iso cube: top diamond + two side faces -->
+        <path d="M 0 -26 L 26 -12 L 0 2 L -26 -12 Z"/>
+        <path d="M -26 -12 L -26 18 L 0 32 L 0 2"/>
+        <path d="M 26 -12 L 26 18 L 0 32"/>
+      </g>
+      <text y="58" fill="#cfd6d2">OpenCode</text>
+    </g>
+  </g>
+
+  <!-- Author / brand mark bottom-left -->
+  <g transform="translate(80, 462)" font-family="ui-monospace, 'JetBrains Mono', 'Menlo', 'Consolas', monospace">
+    <!-- Small star glyph -->
+    <g fill="#3FE9C0">
+      <path d="M 0 -10 L 3 -3 L 10 -3 L 4 2 L 6 10 L 0 5 L -6 10 L -4 2 L -10 -3 L -3 -3 Z"/>
+    </g>
+    <text x="20" y="5" font-size="20" fill="#3FE9C0" font-weight="700" letter-spacing="2">ROSHIN JOSE</text>
+    <text x="20" y="26" font-size="13" fill="#5d6e68" letter-spacing="3">v1.1.0  ·  ONE SKILL  ·  SIX AGENTS</text>
+  </g>
+</svg>
