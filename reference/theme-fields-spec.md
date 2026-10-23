@@ -1,6 +1,28 @@
 # Theme Settings — `fields.json` spec
 
-This is the exact shape the agent must produce at the theme root. Every group below is required. Field names are `snake_case`. Default colors and fonts can be replaced with the brand values gathered in the input phase.
+This is the exact shape the agent must produce at the theme root. Every group below is required (in the full panel — see "Two panel styles"). Field names are `snake_case`. Default colors and fonts can be replaced with the brand values gathered in the input phase.
+
+**Defaults the team has settled on:**
+- Primary font: **`Inter`** (Google) — most common across production themes. Alternates the team has shipped: `Barlow`, `Outfit`, `Lato`, `Roboto`, `Plus Jakarta Sans`, `Plus Jakarta Sans` (display) + `Inter` (body) on KineticGPO.
+- Body text color: **`#111111`** (off-black). Never pure `#000000`.
+- Body line-height: **1.6**.
+- Mobile breakpoint: **`767px`**.
+
+## Two panel styles — pick per project
+
+1. **Full panel (default, spec below).** The 12-group boilerplate-derived panel. Ship this when the client expects to restyle everything from Theme Settings. The 11-group variant of this shape has been stable across Ondex, Meridian and Minitab for 4+ years.
+2. **Compact token panel (KineticGPO style).** ~6 groups, every field maps 1:1 to a CSS variable, nothing cosmetic: `colors` (full brand palette, role-annotated) → `typography` (display font, body font, heading color, 2 line-heights) → `type_scale` (7 `number` fields with `"suffix": "rem"` + min/max/step) → `layout` (container max/pad in rem, section padding) → `buttons` (radius only) → `forms` (3 border colors). Ship this when the design system lives in `main.css` and Theme Settings is a tuning layer, not the styling engine. It's 130 lines instead of 1800 and every field demonstrably works.
+
+Either way, the theme-root file uses **only** `group` / `color` / `font` / `number` / `boolean` / `choice` / `image` (plus `richtext` / `textarea` for free text) — never `text` (upload-rejected at theme root).
+
+## Editor-UX conventions (apply to whichever panel you build)
+
+- **Role-annotated labels** (KineticGPO — adopt everywhere): `"Red — primary CTA / accent"`, `"Ink — announcement / CTA bands"`, `"Slate — secondary text / meta"`, `"3XL (H2 / Section Titles)"`. The editor should never guess what a token drives.
+- **Group-level `help_text`** on each group: `"The <client> palette. These feed the site-wide CSS variables used by every module and template."` Field-level help text states constraints: `"Unitless. Applies to content headings H1–H6."`, `"Editing a step resizes every component that uses it."`
+- **`suffix`** on number fields (`"suffix": "rem"` / `"px"`) plus explicit `min`/`max`/`step`.
+- **Bind to portal brand settings** where it helps: `"inherited_value": { "property_value_paths": { "color": "brand_settings.primaryColor" } }` (boilerplate/Aagard pattern).
+- **`alternate_names`** (e.g. `["primary_color"]`) when renaming a field that live pages already reference.
+- **`visibility.hidden_subfields: { "opacity": true }`** to hide the opacity picker on colors that must stay solid.
 
 ## Order in the panel
 
@@ -52,7 +74,7 @@ This is the exact shape the agent must produce at the theme root. Every group be
       ]},
       { "type": "group", "name": "split_5050", "label": "Split Layout (50/50)", "children": [
         { "type": "number", "name": "gap", "label": "Gap (px)", "default": 48, "min": 0 },
-        { "type": "number", "name": "stack_at", "label": "Stack at (px breakpoint)", "default": 768, "min": 320 }
+        { "type": "number", "name": "stack_at", "label": "Stack at (px breakpoint)", "default": 767, "min": 320 }
       ]}
     ]
   },
@@ -62,7 +84,7 @@ This is the exact shape the agent must produce at the theme root. Every group be
     "children": [
       { "type": "color", "name": "primary_color",   "label": "Primary color",   "default": { "color": "#E74C3C", "opacity": 100 } },
       { "type": "color", "name": "secondary_color", "label": "Secondary color", "default": { "color": "#0D899E", "opacity": 100 } },
-      { "type": "color", "name": "tertiary_color",  "label": "Tertiary color",  "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color", "name": "tertiary_color",  "label": "Tertiary color",  "default": { "color": "#1A1A1A", "opacity": 100 } },
       { "type": "color", "name": "success", "label": "Success", "default": { "color": "#16A34A", "opacity": 100 } },
       { "type": "color", "name": "warning", "label": "Warning", "default": { "color": "#F59E0B", "opacity": 100 } },
       { "type": "color", "name": "danger",  "label": "Danger",  "default": { "color": "#DC2626", "opacity": 100 } },
@@ -74,19 +96,20 @@ This is the exact shape the agent must produce at the theme root. Every group be
     "type": "group", "name": "global_fonts", "label": "Global Fonts",
     "children": [
       { "type": "font", "name": "primary_font", "label": "Primary font", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif",
-                     "variant": "regular", "size": 16, "size_unit": "px", "color": "#201600", "styles": {} } },
-      { "type": "font", "name": "secondary_font", "label": "Secondary font (optional — headings default to Primary)", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif",
-                     "variant": "regular", "size": 16, "size_unit": "px", "color": "#201600", "styles": {} } }
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif",
+                     "variant": "regular", "size": 16, "size_unit": "px", "color": "#111111", "styles": {} } },
+      { "type": "font", "name": "secondary_font", "label": "Secondary / heading font (optional — headings default to Primary if blank)", "load_external_fonts": true,
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif",
+                     "variant": "regular", "size": 16, "size_unit": "px", "color": "#111111", "styles": {} } }
     ]
   },
 
   {
     "type": "group", "name": "website_header", "label": "Website Header",
     "children": [
+      { "type": "color",   "name": "header_bg",          "label": "Background (top of page)",          "default": { "color": "#FFFFFF", "opacity": 100 } },
       { "type": "color",   "name": "header_scrolled_bg", "label": "Background (.aci-header.scrolled)", "default": { "color": "#FFFFFF", "opacity": 100 } },
-      { "type": "color",   "name": "nav_link_color",     "label": "Menu link color (.nav-link)",        "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color",   "name": "nav_link_color",     "label": "Menu link color (.nav-link)",        "default": { "color": "#111111", "opacity": 100 } },
       { "type": "color",   "name": "child_menu_bg",      "label": "Child menu background",              "default": { "color": "#FFFFFF", "opacity": 100 } },
       { "type": "number",  "name": "logo_max_height",    "label": "Logo max height (px)",                "default": 48, "min": 16 },
       { "type": "boolean", "name": "sticky",             "label": "Sticky header",                       "default": true },
@@ -98,19 +121,19 @@ This is the exact shape the agent must produce at the theme root. Every group be
     "type": "group", "name": "typography", "label": "Typography",
     "children": [
       { "type": "font",   "name": "body_font", "label": "Body text", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 16, "size_unit": "px", "color": "#201600" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 16, "size_unit": "px", "color": "#111111" } },
       { "type": "font",   "name": "h1_font", "label": "Heading 1", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 56, "size_unit": "px", "color": "#201600", "variant": "700" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 56, "size_unit": "px", "color": "#111111", "variant": "700" } },
       { "type": "font",   "name": "h2_font", "label": "Heading 2", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 44, "size_unit": "px", "color": "#201600", "variant": "700" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 44, "size_unit": "px", "color": "#111111", "variant": "700" } },
       { "type": "font",   "name": "h3_font", "label": "Heading 3", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 36, "size_unit": "px", "color": "#201600", "variant": "700" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 36, "size_unit": "px", "color": "#111111", "variant": "700" } },
       { "type": "font",   "name": "h4_font", "label": "Heading 4", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 28, "size_unit": "px", "color": "#201600", "variant": "600" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 28, "size_unit": "px", "color": "#111111", "variant": "600" } },
       { "type": "font",   "name": "h5_font", "label": "Heading 5", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 22, "size_unit": "px", "color": "#201600", "variant": "600" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 22, "size_unit": "px", "color": "#111111", "variant": "600" } },
       { "type": "font",   "name": "h6_font", "label": "Heading 6", "load_external_fonts": true,
-        "default": { "font": "Plus Jakarta Sans", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 18, "size_unit": "px", "color": "#201600", "variant": "600" } },
+        "default": { "font": "Inter", "font_set": "GOOGLE", "fallback": "sans-serif", "size": 18, "size_unit": "px", "color": "#111111", "variant": "600" } },
       { "type": "number", "name": "heading_line_height", "label": "Headings line height", "default": 1.2, "step": 0.05 },
       { "type": "number", "name": "body_line_height",    "label": "Body line height",     "default": 1.6, "step": 0.05 },
       { "type": "color",  "name": "link_color",          "label": "Link color",            "default": { "color": "#E74C3C", "opacity": 100 } },
@@ -137,13 +160,13 @@ This is the exact shape the agent must produce at the theme root. Every group be
     "type": "group", "name": "secondary_button", "label": "Secondary Button",
     "children": [
       { "type": "color",  "name": "bg",                 "label": "Background",          "default": { "color": "#FFFFFF", "opacity": 100 } },
-      { "type": "color",  "name": "text",               "label": "Text",                "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color",  "name": "text",               "label": "Text",                "default": { "color": "#111111", "opacity": 100 } },
       { "type": "number", "name": "border_width",       "label": "Border width (px)",   "default": 1, "min": 0 },
-      { "type": "color",  "name": "border_color",       "label": "Border color",        "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color",  "name": "border_color",       "label": "Border color",        "default": { "color": "#111111", "opacity": 100 } },
       { "type": "number", "name": "corner_radius",      "label": "Corner radius (px)",  "default": 8, "min": 0 },
       { "type": "number", "name": "horizontal_padding", "label": "Horizontal padding",  "default": 28, "min": 0 },
       { "type": "number", "name": "vertical_padding",   "label": "Vertical padding",    "default": 14, "min": 0 },
-      { "type": "color",  "name": "bg_hover",           "label": "Background (hover)",  "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color",  "name": "bg_hover",           "label": "Background (hover)",  "default": { "color": "#111111", "opacity": 100 } },
       { "type": "color",  "name": "text_hover",         "label": "Text (hover)",        "default": { "color": "#FFFFFF", "opacity": 100 } }
     ]
   },
@@ -158,7 +181,7 @@ This is the exact shape the agent must produce at the theme root. Every group be
       { "type": "number", "name": "form_radius",       "label": "Form corner radius (px)",   "default": 12, "min": 0 },
       { "type": "number", "name": "form_h_padding",    "label": "Form horizontal padding",   "default": 32, "min": 0 },
       { "type": "number", "name": "form_v_padding",    "label": "Form vertical padding",     "default": 32, "min": 0 },
-      { "type": "color",  "name": "label_color",       "label": "Label color",               "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color",  "name": "label_color",       "label": "Label color",               "default": { "color": "#111111", "opacity": 100 } },
       { "type": "color",  "name": "help_text_color",   "label": "Help text color",           "default": { "color": "#6B7280", "opacity": 100 } },
       { "type": "color",  "name": "field_border",      "label": "Field border",              "default": { "color": "#D1D5DB", "opacity": 100 } },
       { "type": "color",  "name": "field_focus_border","label": "Field focus border",        "default": { "color": "#E74C3C", "opacity": 100 } },
@@ -172,12 +195,12 @@ This is the exact shape the agent must produce at the theme root. Every group be
   {
     "type": "group", "name": "tables", "label": "Tables (HTML Table)",
     "children": [
-      { "type": "color", "name": "header_bg",   "label": "Header background", "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color", "name": "header_bg",   "label": "Header background", "default": { "color": "#1A1A1A", "opacity": 100 } },
       { "type": "color", "name": "header_text", "label": "Header text",       "default": { "color": "#FFFFFF", "opacity": 100 } },
       { "type": "color", "name": "body_bg",     "label": "Body background",   "default": { "color": "#FFFFFF", "opacity": 100 } },
-      { "type": "color", "name": "body_text",   "label": "Body text",         "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color", "name": "body_text",   "label": "Body text",         "default": { "color": "#111111", "opacity": 100 } },
       { "type": "color", "name": "footer_bg",   "label": "Footer background", "default": { "color": "#F9FAFB", "opacity": 100 } },
-      { "type": "color", "name": "footer_text", "label": "Footer text",       "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color", "name": "footer_text", "label": "Footer text",       "default": { "color": "#111111", "opacity": 100 } },
       { "type": "color", "name": "border_color","label": "Border color",      "default": { "color": "#E5E7EB", "opacity": 100 } }
     ]
   },
@@ -193,10 +216,10 @@ This is the exact shape the agent must produce at the theme root. Every group be
   {
     "type": "group", "name": "footer", "label": "Footer",
     "children": [
-      { "type": "color", "name": "bg",              "label": "Background",          "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color", "name": "bg",              "label": "Background",          "default": { "color": "#1A1A1A", "opacity": 100 } },
       { "type": "color", "name": "text",            "label": "Text",                "default": { "color": "#FFFFFF", "opacity": 100 } },
-      { "type": "color", "name": "divider",         "label": "Divider",             "default": { "color": "#3F2F1E", "opacity": 100 } },
-      { "type": "color", "name": "bottom_bar_bg",   "label": "Bottom bar bg",       "default": { "color": "#15100B", "opacity": 100 } },
+      { "type": "color", "name": "divider",         "label": "Divider",             "default": { "color": "#2F2F2F", "opacity": 100 } },
+      { "type": "color", "name": "bottom_bar_bg",   "label": "Bottom bar bg",       "default": { "color": "#0F0F0F", "opacity": 100 } },
       { "type": "color", "name": "bottom_bar_text", "label": "Bottom bar font",     "default": { "color": "#FFFFFF", "opacity": 100 } }
     ]
   },
@@ -204,7 +227,7 @@ This is the exact shape the agent must produce at the theme root. Every group be
   {
     "type": "group", "name": "blog", "label": "Blog",
     "children": [
-      { "type": "color",  "name": "header_bg",          "label": "Blog header background", "default": { "color": "#201600", "opacity": 100 } },
+      { "type": "color",  "name": "header_bg",          "label": "Blog header background", "default": { "color": "#1A1A1A", "opacity": 100 } },
       { "type": "color",  "name": "header_text",        "label": "Blog header text",       "default": { "color": "#FFFFFF", "opacity": 100 } },
       { "type": "choice", "name": "layout_no_sidebar",  "label": "Without-sidebar layout",
         "choices": [["grid_2x2","Grid 2 x 2"],["grid_3x3","Grid 3 x 3"],["grid_4x4","Grid 4 x 4"]],
@@ -214,6 +237,31 @@ This is the exact shape the agent must produce at the theme root. Every group be
   }
 ]
 ```
+
+> **Reminder:** none of the field `name` values above conflict with HubSpot's reserved-name list. Don't introduce fields named `label`, `name`, `body`, `type`, `id`, `css`, `styles`, `child_css`, `overrideable` — see [upload-validation.md](upload-validation.md).
+
+> **Reminder:** the **theme**-root `fields.json` does NOT support `type: "text"`. Use `richtext` or `textarea` for any free-text theme setting. (`text` is fine in *module* `fields.json`.)
+
+## `theme.json` — minimal upload-safe shape
+
+```json
+{
+  "name": "<theme-name>",
+  "label": "<Human Label>",
+  "preview_path": "./templates/home.html",
+  "screenshot_path": "./images/theme-thumb.png",
+  "enable_domain_stylesheets": false,
+  "is_available_for_new_content": true,
+  "version": "1.0.0",
+  "author": "OneIMS",
+  "author_email": "hubspot@oneims.com",
+  "responsive_breakpoints": [
+    { "name": "mobile", "mediaQuery": "(max-width: 767px)" }
+  ]
+}
+```
+
+- `responsive_breakpoints` — ONLY the entry name `mobile` is valid. `tablet` / `desktop` are rejected. You may also omit the array entirely.
 
 ## CSS variable map (must be exposed in `theme-overrides.css.html`)
 
@@ -242,10 +290,11 @@ This is the exact shape the agent must produce at the theme root. Every group be
   --aci-info:                 {{ theme.global_colors.info.color }};
 
   /* Fonts */
-  --aci-font-primary:         {{ theme.global_fonts.primary_font.font|default("Plus Jakarta Sans") }}, {{ theme.global_fonts.primary_font.fallback|default("sans-serif") }};
-  --aci-font-secondary:       {{ theme.global_fonts.secondary_font.font|default(theme.global_fonts.primary_font.font|default("Plus Jakarta Sans")) }}, {{ theme.global_fonts.secondary_font.fallback|default("sans-serif") }};
+  --aci-font-primary:         {{ theme.global_fonts.primary_font.font|default("Inter") }}, {{ theme.global_fonts.primary_font.fallback|default("sans-serif") }};
+  --aci-font-secondary:       {{ theme.global_fonts.secondary_font.font|default(theme.global_fonts.primary_font.font|default("Inter")) }}, {{ theme.global_fonts.secondary_font.fallback|default("sans-serif") }};
 
   /* Header */
+  --aci-header-bg:            {{ theme.website_header.header_bg.color }};
   --aci-header-scrolled-bg:   {{ theme.website_header.header_scrolled_bg.color }};
   --aci-nav-link:             {{ theme.website_header.nav_link_color.color }};
   --aci-child-menu-bg:        {{ theme.website_header.child_menu_bg.color }};
@@ -336,3 +385,5 @@ This is the exact shape the agent must produce at the theme root. Every group be
   --aci-blog-with-sidebar-bg: {{ theme.blog.with_sidebar_bg.color }};
 }
 ```
+
+The whole block lives inside `<style>…</style>` in `css/theme-overrides.css.html`. See the production model at `/Users/apple/Documents/OneIMS-Marketplace/smartguard/css/theme-overrides.css.html`.
